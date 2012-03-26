@@ -58,7 +58,7 @@
         finish: function() {
             var clazz = new Class(this.body);
             for (var staticName in this.static) {
-                newClass[staticName] = content.static[staticName];
+                clazz[staticName] = this.static[staticName];
             }
             __currentNs[this.name] = clazz;
         }
