@@ -7,8 +7,8 @@ namespace('my.namespace', function() {
 
     fun('test', function(name) {
             myPrivateOutputFunction(myPrivateVariable + name);
-        })
-};
+    });
+});
 
 namespace('my', function() {
     namespace('namespace', function() {
@@ -18,7 +18,7 @@ namespace('my', function() {
                                     });
                     });
         });
-};
+});
 
 var instance = new my.namespace.MyInternalClazz;
 instance.test();

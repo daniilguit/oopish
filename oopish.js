@@ -10,32 +10,28 @@
         return arr[arr.length - 1];
     }
 
-    function _extend(what, name, by) {
-        if (!what[name]) {
-            what[name] = {};
-        }
-        what = what[name];
+    function _extend(what,by) {
         for (var i in by) {
             what[i] = by[i];
         }
         return what;
     }
 
-
-    var _NamespaceDecl = new Class({
-        initialize: function(name) {
-            this.body = {};
-            this.names = name.split(/\./);
-            var names = this.names;
-            var result = window;
-            __nsStack.push(__currentNs);
-            for (var i = 0; i < names.length; i++) {
-                if (!__currentNs[names[i]]) {
-                    __currentNs[names[i]] = {};
-                }
-                __currentNs = __currentNs[names[i]];
+    function _NamespaceDecl(name) {
+        this.body = {};
+        this.names = name.split(/\./);
+        var names = this.names;
+        var result = window;
+        __nsStack.push(__currentNs);
+        for (var i = 0; i < names.length; i++) {
+            if (!__currentNs[names[i]]) {
+                __currentNs[names[i]] = {};
             }
-        },
+            __currentNs = __currentNs[names[i]];
+        }
+    }
+
+    _extend(_NamespaceDecl.prototype, {
         fun: function(name, fn) {
             __currentNs[name] = fn;
         },
@@ -44,12 +40,12 @@
         }
     });
 
-    var _ClassDecl = new Class({
-        initialize: function(name) {
-            this.body = {};
-            this.static = {};
-            this.name = name;
-        },
+    function _ClassDecl (name) {
+        this.body = {};
+        this.static = {};
+        this.name = name;
+    }
+    _extend(_ClassDecl.prototype, {
         fun: function(name, fn) {
             this.body[name] = fn;
         },
@@ -67,7 +63,6 @@
             __currentNs[this.name] = clazz;
         }
     });
-
 
     function _decl(name, decl, definition) {
         __decls.push(decl);
